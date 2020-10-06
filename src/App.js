@@ -1,24 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { createContext, useState } from "react";
+import NavBar from "./components/layout/NavBar";
 import './App.css';
+import HomePage from "./components/pages/HomePage";
+import { BrowserRouter as Router, Switch, Link, Route } from "react-router-dom";
+import AdminDashBord from "./components/pages/dashbord/admin/AdminDashBord";
+import LogIn from "./components/auth/LogIn";
+import DonationPage from "./components/pages/DonationPage";
+import VolunteerRegistrationForm from "./components/pages/VolunteerRegistrationForm";
+import PrivateRoute from "./components/auth/PrivateRoute";
+import EventCreatePage from "./components/pages/dashbord/admin/EventCreatePage";
 
-function App() {
+export const UserContext = createContext();
+
+const  App = () => {
+
+  const [loggedInUser, setLoggedInUser] = useState({});
+  const [volunteer, setVolunteer] = useState({});
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <UserContext.Provider value={[loggedInUser,setLoggedInUser, volunteer, setVolunteer]}>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route  path='/donation' component={DonationPage} />
+          <Route  path='/login' component={LogIn} />
+          <Route exact path='/admin' component={LogIn} />
+          
+          <Route  path='/register/:eventTitle'>
+            <VolunteerRegistrationForm />
+          </Route>
+          
+          <Route  path='/admin/createEvent'>
+            <EventCreatePage />
+          </Route>
+
+          <Route  path='/admin/dashbord'>
+            <AdminDashBord />
+          </Route>
+        </Switch>
+      </Router>
+      </UserContext.Provider>
     </div>
   );
 }

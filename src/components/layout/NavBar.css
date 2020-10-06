@@ -1,0 +1,26 @@
+nav {
+    display: flex;
+    min-height: 10vh;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 999;    
+}
+
+.logo-sec {
+    height: 100%;
+}
+
+.logo-sec img {
+   height: 55px;
+}
+
+.link_items {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.nav_links {
+    padding-left: 1rem;
+}
