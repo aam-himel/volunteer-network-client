@@ -32,7 +32,7 @@ const NavBar = () => {
           </li>
           {loggedInUser.email ? (
             <li>
-              <Link to="/profile" className="nav_links">
+              <Link to="/eventTasks" className="nav_links">
                 {loggedInUser.name}
               </Link>
             </li>

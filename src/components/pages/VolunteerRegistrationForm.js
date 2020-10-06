@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@material-ui/core";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import DateFnsUtils from "@date-io/date-fns";
 import { useForm } from "react-hook-form";
@@ -37,15 +37,36 @@ const VolunteerRegistrationForm = () => {
   let { eventTitle } = useParams();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+
   const { register, handleSubmit, watch, errors } = useForm();
-  const handleDateChange = (date) => {
-    const newDate = { ...selectedDate, date };
-    setSelectedDate(newDate);
-    console.log(selectedDate);
-  };
+  const [userFormState, setuserFormState] = useState(
+    { 
+        username: loggedInUser.name,
+        description: '',
+        date: '',
+        email:loggedInUser.email,
+        title: eventTitle
+    });
+
+    useEffect(() => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userFormState)
+        };
+        fetch('http://localhost:5000/user/register', requestOptions)
+        .then(res => res.text())
+        .then(data => {
+            console.log(data);
+        })
+    }, [userFormState]);
+
 
   const onSubmit = (data) => {
-    console.log(data);
+    console.log("From local form data",data);
+    const newState = {...userFormState, ...data}
+    console.log(newState);
+
   };
 
   return (
@@ -71,42 +92,18 @@ const VolunteerRegistrationForm = () => {
             autoComplete="off"
             onSubmit={handleSubmit(onSubmit)}
           >
-            {/* <Input placeholder="Date" fullWidth>
-                        
-                        </Input> */}
-            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid container justify="space-around">
-                <KeyboardDatePicker
-                  helperText={""}
-                  fullWidth
-                  disableToolbar
-                  variant="inline"
-                  format="dd/MM/yyyy"
-                  margin="normal"
-                  id="date-picker-inline"
-                  label="Available day"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  ref={register}
-                  name="date"
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-                
-              </Grid>
-            </MuiPickersUtilsProvider> */}
+            
             <input
               placeholder="Full Name"
               fullWidth
               name="username"
-              value={loggedInUser.name}
+              defaultValue={loggedInUser.name}
               ref={register}
             />
             <input
               placeholder="Username or Email"
               fullWidth
-              value={loggedInUser.email}
+              defaultValue={loggedInUser.email}
               ref={register}
               name="email"
             /> <br />
@@ -120,20 +117,12 @@ const VolunteerRegistrationForm = () => {
             <input
               placeholder="event title"
               fullWidth
-              value={eventTitle}
+              defaultValue={eventTitle}
               name="title"
               ref={register}
             />
             <br />
-            {/* <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              fullWidth
-              style={{ marginTop: "2rem" }}
-            >
-              Registration
-            </Button> */}
+            
             <input type="submit" />
           </form>
         </Paper>

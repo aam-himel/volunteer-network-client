@@ -9,6 +9,7 @@ import DonationPage from "./components/pages/DonationPage";
 import VolunteerRegistrationForm from "./components/pages/VolunteerRegistrationForm";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import EventCreatePage from "./components/pages/dashbord/admin/EventCreatePage";
+import EventTasks from "./components/pages/dashbord/user/EventTasks";
 
 export const UserContext = createContext();
 
@@ -29,9 +30,9 @@ const  App = () => {
           <Route  path='/login' component={LogIn} />
           <Route exact path='/admin' component={LogIn} />
           
-          <Route  path='/register/:eventTitle'>
+          <PrivateRoute  path='/register/:eventTitle'>
             <VolunteerRegistrationForm />
-          </Route>
+          </PrivateRoute>
           
           <Route  path='/admin/createEvent'>
             <EventCreatePage />
@@ -40,6 +41,10 @@ const  App = () => {
           <Route  path='/admin/dashbord'>
             <AdminDashBord />
           </Route>
+
+          <PrivateRoute path="/eventTasks">
+            <EventTasks />
+          </PrivateRoute>
         </Switch>
       </Router>
       </UserContext.Provider>

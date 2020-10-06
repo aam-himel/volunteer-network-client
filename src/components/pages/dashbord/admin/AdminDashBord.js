@@ -1,5 +1,5 @@
 import { Button, Grid, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AdminForm from './AdminForm';
 import EventList from './EventList';
@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const AdminDashBord = () => {
+
+    const [userEvent,setUserEvent ] = useState([]);
     const [displayProps, setDisplayProps] = useState({
         isForm : false,
         isList: false
@@ -38,6 +40,14 @@ const AdminDashBord = () => {
         setDisplayProps({isForm:true})
         console.log('event form clicked')
     }
+    useEffect(() => {
+        fetch('http://localhost:5000/registeredEvents')
+        .then(res => res.json())
+        .then(data => {
+            console.log("data",data);
+            setUserEvent(data);
+        })
+    },[])
     
     return (
         <Grid contaienr spacing={2} className={classes.root}>
@@ -47,7 +57,7 @@ const AdminDashBord = () => {
            </Grid>
            <Grid item xs={9} style={{backgroundColor:'#FFFFFF', marginLeft:'1rem', borderRadius:'15px'}} className={classes.right}>
                {
-                   displayProps.isList ? <EventList />
+                   displayProps.isList ? <EventList userEvent={userEvent}/>
                   :  <AdminForm />
                }
            </Grid>
