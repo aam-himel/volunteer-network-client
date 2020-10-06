@@ -41,7 +41,7 @@ const AdminDashBord = () => {
         console.log('event form clicked')
     }
     useEffect(() => {
-        fetch('http://localhost:5000/registeredEvents')
+        fetch('https://shielded-peak-10174.herokuapp.com/registeredEvents')
         .then(res => res.json())
         .then(data => {
             console.log("data",data);

@@ -11,7 +11,7 @@ const EventTasks = () => {
     const [eventTask, setEventTask] = useState([]);
     const [loggedInUser] = useContext(UserContext);
     useEffect(() => {
-        fetch('http://localhost:5000/eventTasks?email=' + loggedInUser.email)
+        fetch('https://shielded-peak-10174.herokuapp.com/eventTasks?email=' + loggedInUser.email)
         .then(res => res.json())
         .then(data => {
             console.log('Data', data)

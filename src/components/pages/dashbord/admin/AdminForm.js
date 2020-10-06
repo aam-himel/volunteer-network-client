@@ -19,7 +19,7 @@ const AdminForm = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(eventFormState)
         };
-        fetch('http://localhost:5000/admin/addEvent', requestOptions)
+        fetch('https://shielded-peak-10174.herokuapp.com/admin/addEvent', requestOptions)
         .then(res => res.text())
         .then(data => {
             console.log(data);

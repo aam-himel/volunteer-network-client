@@ -10,7 +10,7 @@ const HomePage = () => {
     const [events, setEvents] = useState([]);
     const history = useHistory();
     useEffect(() => {
-        fetch('http://localhost:5000/events')
+        fetch('https://shielded-peak-10174.herokuapp.com/events')
         .then(res => res.json())
         .then(data => {
             setEvents(data);
